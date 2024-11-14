@@ -8,7 +8,15 @@
 </head>
 <body>
     <h1>Prouct</h1>
-    <p>this is ma index boi</p>
+    <div>
+        @if(session()->has('success'))
+        <div>
+            {{session('success')}}
+        </div>
+        @endif
+    </div>
+    <p>this is ma index boi <br>
+    <a href="{{route('product.create')}}">create product</a></p>
 
     <div>
         <table border="1">
@@ -19,6 +27,7 @@
                 <th>Prijs</th>
                 <th>Description</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
 
             @foreach($products as $product)
@@ -30,6 +39,13 @@
                 <td>{{$product->description}}</td>
                 <td>
                     <a href="{{route('product.edit', ['product' => $product])}}">Edit</a>
+                </td>
+                <td>
+                    <form action="{{route('product.destroy', ['product' => $product])}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="delete">
+                    </form>
                 </td>
              </tr>
             @endforeach
